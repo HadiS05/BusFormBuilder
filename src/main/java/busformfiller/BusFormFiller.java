@@ -196,22 +196,20 @@ public class BusFormFiller {
 					String line;
 					do{
 						end = endDate.minusDays(endDateCount).format(format);
-						do {
-							line = r.readLine().toString();
+						endLineCount = 0;
+						while(r!= null) {
+							line = r.readLine();
 							if(line.contains(end)) {
-								return ((getTotalLines(path) == endLineCount) ? getTotalLines(path) : getTotalLines(path) - endLineCount);
+								return getTotalLines(path) - endLineCount;
 							}
 							endLineCount++;
-						}while(!line.equals(null));
+						}
 						endDateCount++;
 					}while(!end.equals(startDate.format(format))); // Ensure that the end date does not equal the start date
 					System.out.println("It seems this date does not exist. Please make sure it is included in the presto report. Date: " + startDate.format(format));
 					// If there is no such date in the report, then it must not exist even after incrementing till the end date
 					return endLineCount; // In all cases return the lineCount
-				}catch(NullPointerException f) {
-					System.out.println("Uh-oh! I've reached the end of the file, but I can't find that date! Please try a date that is available in the report.");
 				}
-				break;
 			default:
 				System.out.println("Error: The value for 'direction' must be 'start' or 'end'");
 				break;
