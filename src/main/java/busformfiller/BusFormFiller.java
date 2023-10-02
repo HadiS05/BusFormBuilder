@@ -127,6 +127,11 @@ public class BusFormFiller {
 				}
 			}
 			addDates(presto_report_array);
+			PrestoReport prestoArray = new PrestoReport(presto_report_array);
+			prestoArray.setStartDate(start_date);
+			prestoArray.setEndDate(end_date);
+			prestoArray.setName(name);
+			prestoArray.calculateFares();
 		}catch(DateTimeException e) { // Catch a date error due to improper user input
 			e.printStackTrace();
 		}catch(IOException r) {
@@ -232,6 +237,7 @@ public class BusFormFiller {
 			LocalDate day = LocalDate.parse(p_r_a[i][0], prev_form); // Parses the date
 			p_r_a[i][0] = p_r_a[i][0] + ": " + day.format(form); // Adds a day with the original date
 			p_r_a[i][3] = p_r_a[i][3].replaceAll("-", ""); // Removes the negative from the fare payment, just an extra addition
+			p_r_a[i][3] = p_r_a[i][3].replaceAll("\\$", "");
 			System.out.println(p_r_a[i][0]);
 		}
 	}
