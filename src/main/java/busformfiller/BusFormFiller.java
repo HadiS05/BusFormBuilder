@@ -132,6 +132,7 @@ public class BusFormFiller {
 			prestoArray.setEndDate(end_date);
 			prestoArray.setName(name);
 			prestoArray.calculateFares();
+			prestoArray.printArray();
 		}catch(DateTimeException e) { // Catch a date error due to improper user input
 			e.printStackTrace();
 		}catch(IOException r) {
