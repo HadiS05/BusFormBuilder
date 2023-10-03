@@ -135,7 +135,6 @@ public class BusFormFiller {
 			prestoArray.printArray();
 			
 			PDFFiller pdfiller = new PDFFiller();
-			pdfiller.fill();
 		}catch(DateTimeException e) { // Catch a date error due to improper user input
 			e.printStackTrace();
 		}catch(IOException r) {
