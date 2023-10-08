@@ -52,7 +52,7 @@ public class BusFormFiller {
 					// Finalize name
 					System.out.printf("'%s' will be used.\n", name);
 					
-					
+					getPrestoReport(name);
 					break;
 				
 				default:
@@ -132,8 +132,12 @@ public class BusFormFiller {
 			prestoArray.setEndDate(end_date); // Set end date
 			prestoArray.setName(name); // Set name
 			System.out.println("Please enter the email address where you would like to receive the PDF.");
-			Scanner emscan = new Scanner(System.in); // Get email scanner
-			String emailAddress = emscan.nextLine(); // Get email
+			String emailAddress;
+			do {
+				Scanner emscan = new Scanner(System.in); // Get email scanner
+				emailAddress = emscan.nextLine(); // Get email
+				if(!emailAddress.contains("@")) System.out.println("Please enter a valid e-mail address (user@example.com).");
+			}while(!emailAddress.contains("@"));
 			PDFFiller pdfiller = new PDFFiller(prestoArray.indexedDates(), name, startDate, endDate, emailAddress); // Create PDF Filler
 			pdfiller.fillPDF(); // Fill PDF
 		}catch(DateTimeException e) { // Catch a date error due to improper user input
