@@ -126,19 +126,21 @@ public class BusFormFiller {
 					// Then we access each index of the filtered array with 'i'
 				}
 			}
-			addDates(presto_report_array);
-			PrestoReport prestoArray = new PrestoReport(presto_report_array);
-			prestoArray.setStartDate(start_date);
-			prestoArray.setEndDate(end_date);
-			prestoArray.setName(name);
-			prestoArray.calculateFares();
-			prestoArray.printArray();
-			
-			PDFFiller pdfiller = new PDFFiller();
+			addDates(presto_report_array); // Add days of the week
+			PrestoReport prestoArray = new PrestoReport(presto_report_array); // Create Presto Array object
+			prestoArray.setStartDate(start_date); // Set start date
+			prestoArray.setEndDate(end_date); // Set end date
+			prestoArray.setName(name); // Set name
+			System.out.println("Please enter the email address where you would like to receive the PDF.");
+			Scanner emscan = new Scanner(System.in); // Get email scanner
+			String emailAddress = emscan.nextLine(); // Get email
+			PDFFiller pdfiller = new PDFFiller(prestoArray.indexedDates(), name, startDate, endDate, emailAddress); // Create PDF Filler
+			pdfiller.fillPDF(); // Fill PDF
 		}catch(DateTimeException e) { // Catch a date error due to improper user input
 			e.printStackTrace();
 		}catch(IOException r) {
-			System.out.println("Uh-oh! Seems like the file may not be avaialable. For more info: " + r);
+			System.out.println("Uh-oh! Seems like the file may not be avaialable. For more info: ");
+			r.printStackTrace();
 		}
 	}
 	
@@ -265,5 +267,4 @@ public class BusFormFiller {
 		}
 		return line;
 	}
-
 }
