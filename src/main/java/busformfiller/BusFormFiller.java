@@ -110,9 +110,7 @@ public class BusFormFiller {
 			// Go through the .csv file and find which line has the required start date
 			int start_count = findLine(file, start_date, end_date, format, path, "start"); // This will count how many lines it takes to get to the start date.
 			int end_count = findLine(file,start_date, end_date, format, path, "end"); // This will count how many lines it takes to get to the end date.
-			
-			System.out.println(start_count);
-			System.out.println(end_count);
+
 			Stream<String> lines = Files.lines(Paths.get(path)); // Gains a full stream of the file lines
 			// Skips start_count amount of lines and ends at the end_count
 			String[] fileLines = lines.skip(start_count).limit(end_count-start_count).toArray(String[] :: new);
@@ -126,6 +124,8 @@ public class BusFormFiller {
 					// Then we access each index of the filtered array with 'i'
 				}
 			}
+			PrestoCsvPdf pcpdf = new PrestoCsvPdf(presto_report_array, startDate, endDate);
+			pcpdf.createPDF();
 			addDates(presto_report_array); // Add days of the week
 			PrestoReport prestoArray = new PrestoReport(presto_report_array); // Create Presto Array object
 			prestoArray.setStartDate(start_date); // Set start date
@@ -192,7 +192,7 @@ public class BusFormFiller {
 					lineCount = 0; // At every new iteration the lineCount is reset so that it does not overflow from the previous date
 					while(sc.hasNextLine()){ // While loop to iterate file lines
 						String line = sc.nextLine(); // Read line
-						if(line.contains(start)){ // Control flow
+						if(line.contains(start) && (line.contains("Go Transit") || line.contains("Hamilton Street Railway"))){ // Control flow
 							return lineCount; // return the lineCount, how many lines it took
 						}
 						lineCount++; // Otherwise, increment lineCount
@@ -216,7 +216,7 @@ public class BusFormFiller {
 							line = r.readLine(); // Get the last line of the file
 							if(line == null){ // If line is null
 								break; // Break the inner loop
-							}else if(line.contains(end)) { // If line has the end date
+							}else if(line.contains(end) && (line.contains("Go Transit") || line.contains("Hamilton Street Railway"))) { // If line has the end date
 								return (getTotalLines(path) - endLineCount); // Return the necessary amount of lines to skip
 							}
 							endLineCount++; // If there is no match, move on to the next date and increment
