@@ -242,7 +242,7 @@ public class BusFormFiller {
 		DateTimeFormatter form = DateTimeFormatter.ofPattern("EEEE"); // Gets pattern for days of the week
 		DateTimeFormatter prev_form = DateTimeFormatter.ofPattern("M/d/yyyy"); // Gets formatting for original dates
 		for(int i = 0; i < p_r_a.length; i++) { // Loops through 2D Array
-			p_r_a[i][0] = p_r_a[i][0].substring(0, 10).replaceAll(" ", ""); // Gets the date only, removes the whitespace and the time
+			p_r_a[i][0] = p_r_a[i][0].substring(0, p_r_a[i][0].indexOf(' ')).replaceAll(" ", ""); // Gets the date only, removes the whitespace and the time
 			LocalDate day = LocalDate.parse(p_r_a[i][0], prev_form); // Parses the date
 			p_r_a[i][0] = p_r_a[i][0] + ": " + day.format(form); // Adds a day with the original date
 			p_r_a[i][3] = p_r_a[i][3].replaceAll("-", ""); // Removes the negative from the fare payment, just an extra addition
